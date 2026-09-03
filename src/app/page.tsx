@@ -1,9 +1,10 @@
 import { Hero } from "@/components/Hero";
 import { CategoryTile } from "@/components/CategoryTile";
 import { ProductCard } from "@/components/ProductCard";
+import { TemplateCard } from "@/components/TemplateCard";
 import { KolamDivider } from "@/components/KolamDivider";
 import { AIAssistantWidget } from "@/components/AIAssistantWidget";
-import { GopuramIcon, DavaraIcon, BellIcon } from "@/components/Icons";
+import { GopuramIcon, DavaraIcon, BellIcon, type IconName } from "@/components/Icons";
 import { products } from "@/lib/products";
 
 const featured = products.slice(0, 5);
@@ -24,6 +25,29 @@ const vignettes = [
     title: "December, kutcheri season",
     copy: "Sabha timings, encore requests, and the friends you only see this time of year — a page for all of it.",
   },
+];
+
+type Showcase = { label: string; caption: string; icon: IconName; accent: string };
+
+const OCCASION_SHOWCASE: Showcase[] = [
+  { label: "Birthday", caption: "Birthday photobook templates", icon: "gift", accent: "#E2A93D" },
+  { label: "Anniversary", caption: "Anniversary keepsakes", icon: "heartPair", accent: "#A6553D" },
+  { label: "Wedding", caption: "Wedding & engagement books", icon: "ring", accent: "#5C6B3E" },
+  { label: "Housewarming", caption: "New home, new chapter", icon: "home", accent: "#8FA876" },
+];
+
+const PLACE_SHOWCASE: Showcase[] = [
+  { label: "Chennai", caption: "Home-turf favourites", icon: "gopuram", accent: "#5C6B3E" },
+  { label: "Goa", caption: "Sun, sand, and stories", icon: "wave", accent: "#E2A93D" },
+  { label: "Kerala", caption: "Backwaters & greenery", icon: "leaf", accent: "#8FA876" },
+  { label: "Europe", caption: "International trip albums", icon: "arch", accent: "#A6553D" },
+];
+
+const MEMORY_SHOWCASE: Showcase[] = [
+  { label: "Us", caption: "For the two of you", icon: "heartPair", accent: "#A6553D" },
+  { label: "Family", caption: "Generations, together", icon: "family", accent: "#5C6B3E" },
+  { label: "First Trip", caption: "The one that started it all", icon: "suitcase", accent: "#E2A93D" },
+  { label: "Childhood", caption: "Playful, easy, unforgettable", icon: "paperPlane", accent: "#8FA876" },
 ];
 
 export default function HomePage() {
@@ -50,6 +74,10 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+
+      <ShowcaseSection title="Shop by occasion" items={OCCASION_SHOWCASE} />
+      <ShowcaseSection title="Shop by place" items={PLACE_SHOWCASE} />
+      <ShowcaseSection title="Shop by memory" items={MEMORY_SHOWCASE} />
 
       <section className="container-page py-6">
         <KolamDivider animate />
@@ -94,6 +122,25 @@ export default function HomePage() {
         </div>
       </section>
     </>
+  );
+}
+
+function ShowcaseSection({ title, items }: { title: string; items: Showcase[] }) {
+  return (
+    <section className="container-page py-10">
+      <h2 className="mb-6 font-display text-2xl text-pine">{title}</h2>
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+        {items.map((item) => (
+          <TemplateCard
+            key={item.label}
+            label={item.label}
+            caption={item.caption}
+            icon={item.icon}
+            accent={item.accent}
+          />
+        ))}
+      </div>
+    </section>
   );
 }
 
