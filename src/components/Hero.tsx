@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { KolamIcon, GopuramIcon } from "@/components/Icons";
+import Image from "next/image";
+import { KolamIcon } from "@/components/Icons";
 
 export function Hero() {
   return (
@@ -10,11 +11,12 @@ export function Hero() {
         </div>
         <div>
           <h1 className="max-w-xl font-display text-4xl leading-[1.1] text-pine sm:text-5xl">
-            Your Madras, bound in paper.
+            Your precious memories, bound in paper.
           </h1>
           <p className="mt-5 max-w-md text-pine/65">
-            Photobooks, journals and planners built around the city that shaped you — Marina walks,
-            Mylapore evenings, filter kaapi at seven. Personalise every cover and page yourself.
+            Photobooks, journals and planners built around the moments that shaped you — a trip you
+            still talk about, a birthday worth remembering, the everyday mornings you'd live again.
+            Personalise every cover and page yourself.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
@@ -34,7 +36,16 @@ export function Hero() {
       </div>
 
       <div className="flex justify-center lg:justify-end">
-        <BookMockup />
+        <div className="relative h-64 w-64 sm:h-80 sm:w-80">
+          <Image
+            src="/logo-badge.png"
+            alt="Madarasi Studio — your precious moments, bound in paper"
+            fill
+            sizes="(min-width: 640px) 320px, 256px"
+            className="object-contain drop-shadow-xl"
+            priority
+          />
+        </div>
       </div>
     </section>
   );
@@ -61,21 +72,5 @@ function KolamColumn() {
         strokeWidth="1"
       />
     </svg>
-  );
-}
-
-function BookMockup() {
-  return (
-    <div className="relative h-72 w-56 rotate-[4deg] rounded-lg border border-olive/30 bg-gradient-to-br from-cloud to-ivory p-6 shadow-2xl sm:h-80 sm:w-64">
-      <div className="absolute inset-3 rounded-md border border-mist" />
-      <div className="flex h-full flex-col items-center justify-center gap-4 text-center">
-        <GopuramIcon className="h-14 w-14 text-olive" />
-        <div>
-          <p className="font-display text-lg text-pine">Marina Mornings</p>
-          <p className="mt-1 text-xs text-pine/40">A Madarasi photobook</p>
-        </div>
-      </div>
-      <div className="absolute -bottom-4 -left-4 -z-10 h-full w-full rotate-[-6deg] rounded-lg bg-rust/40" />
-    </div>
   );
 }

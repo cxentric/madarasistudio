@@ -1,14 +1,10 @@
 import { Hero } from "@/components/Hero";
 import { CategoryTile } from "@/components/CategoryTile";
-import { ProductCard } from "@/components/ProductCard";
 import { TemplateCard } from "@/components/TemplateCard";
 import { KolamDivider } from "@/components/KolamDivider";
 import { AIAssistantWidget } from "@/components/AIAssistantWidget";
 import { GopuramIcon, DavaraIcon, BellIcon, type IconName } from "@/components/Icons";
-import { products } from "@/lib/products";
 import { slugify } from "@/lib/utils";
-
-const featured = products.slice(0, 5);
 
 const vignettes = [
   {
@@ -62,17 +58,6 @@ export default function HomePage() {
           <CategoryTile name="Planners" icon="davara" href="/shop?category=Planners" />
           <CategoryTile name="Journals" icon="bell" href="/shop?category=Journals" />
           <CategoryTile name="Notebooks" icon="kolam" href="/shop?category=Notebooks" />
-        </div>
-      </section>
-
-      <section className="container-page py-14">
-        <div className="mb-8 flex items-end justify-between">
-          <h2 className="font-display text-2xl text-pine">Made to be personalised</h2>
-        </div>
-        <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
-          {featured.map((p, i) => (
-            <ProductCard key={p.slug} product={p} span={i === 0 ? "wide" : undefined} />
-          ))}
         </div>
       </section>
 
