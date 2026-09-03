@@ -11,6 +11,8 @@ export type Product = {
   description: string;
   colors: ColorOption[];
   icon: "gopuram" | "davara" | "bell" | "kolam" | "auto";
+  occasions: string[];
+  recipients: string[];
 };
 
 export const BRAND_COLORS: ColorOption[] = [
@@ -35,6 +37,8 @@ export const products: Product[] = [
       "A 60-page layflat photobook sized for a shelf, not a drawer. Lay out your own frames against a Marina-dawn palette, add captions in your own hand-picked font, and pick a cover finish in olive or marigold.",
     colors: [BRAND_COLORS[0], BRAND_COLORS[1], BRAND_COLORS[4]],
     icon: "gopuram",
+    occasions: ["birthday", "anniversary", "justbecause"],
+    recipients: ["partner", "parent", "friend", "myself"],
   },
   {
     slug: "mylapore-memories",
@@ -48,6 +52,8 @@ export const products: Product[] = [
       "100 pages, thick matte stock, and room for the whole story — from the temple tank at dawn to the last kutcheri of the season. Built for families who keep adding chapters.",
     colors: [BRAND_COLORS[2], BRAND_COLORS[0], BRAND_COLORS[5]],
     icon: "bell",
+    occasions: ["anniversary", "birthday", "housewarming"],
+    recipients: ["parent", "grandparent"],
   },
   {
     slug: "kolam-diaries",
@@ -61,6 +67,8 @@ export const products: Product[] = [
       "A pocket-sized photobook that reads like a keepsake. Twenty pages, a kolam-dot pattern debossed on the cover, and space for a short dedication on the first page.",
     colors: [BRAND_COLORS[1], BRAND_COLORS[4], BRAND_COLORS[3]],
     icon: "kolam",
+    occasions: ["birthday", "anniversary", "justbecause"],
+    recipients: ["friend", "partner", "student"],
   },
   {
     slug: "pondy-bazaar-postcards",
@@ -73,6 +81,8 @@ export const products: Product[] = [
       "A travel-format mini photobook with postcard-style layouts — one photo, one line, one page. Good for a single trip or a whole year of Saturday errands.",
     colors: [BRAND_COLORS[5], BRAND_COLORS[2], BRAND_COLORS[1]],
     icon: "auto",
+    occasions: ["farewell", "justbecause"],
+    recipients: ["friend", "colleague"],
   },
   {
     slug: "filter-kaapi-rituals",
@@ -86,6 +96,8 @@ export const products: Product[] = [
       "An undated daily planner with a davara-and-tumbler motif running along the footer of every page. Monthly overviews, daily blocks, and a habit tracker sized for one small, good habit at a time.",
     colors: [BRAND_COLORS[0], BRAND_COLORS[1]],
     icon: "davara",
+    occasions: ["newyear", "birthday", "housewarming"],
+    recipients: ["friend", "colleague", "partner", "myself"],
   },
   {
     slug: "kutcheri-season",
@@ -98,6 +110,8 @@ export const products: Product[] = [
       "A desk planner built around the December music season — weekly spreads with room for sabha names, timings, and the friends you're meeting there.",
     colors: [BRAND_COLORS[2], BRAND_COLORS[4]],
     icon: "bell",
+    occasions: ["newyear", "birthday"],
+    recipients: ["friend", "colleague", "parent"],
   },
   {
     slug: "kanjeevaram-threads",
@@ -111,6 +125,8 @@ export const products: Product[] = [
       "A guided gratitude journal with prompts inspired by the patience of a Kanjeevaram weave — small, daily entries that add up to something you didn't notice being built.",
     colors: [BRAND_COLORS[2], BRAND_COLORS[1]],
     icon: "kolam",
+    occasions: ["newyear", "birthday", "graduation"],
+    recipients: ["friend", "partner", "myself", "student"],
   },
   {
     slug: "kapaleeshwarar-evenings",
@@ -123,6 +139,8 @@ export const products: Product[] = [
       "A wellness journal with evening-check-in prompts — how the day went, what to let go of, what to carry into tomorrow. Cover debossed with a temple-lamp line drawing.",
     colors: [BRAND_COLORS[0], BRAND_COLORS[5]],
     icon: "bell",
+    occasions: ["birthday", "newyear", "justbecause"],
+    recipients: ["myself", "friend", "partner"],
   },
   {
     slug: "kolam-grid",
@@ -136,6 +154,8 @@ export const products: Product[] = [
       "A dot-grid notebook for planning, sketching, or actually drawing your own kolam. 120 pages of thick, fountain-pen-friendly paper.",
     colors: [BRAND_COLORS[3], BRAND_COLORS[0], BRAND_COLORS[4]],
     icon: "kolam",
+    occasions: ["birthday", "graduation", "justbecause"],
+    recipients: ["friend", "student", "colleague", "myself"],
   },
   {
     slug: "kacheri-notes",
@@ -148,6 +168,8 @@ export const products: Product[] = [
       "A lined notebook sized for a concert programme in one pocket. Ribbon marker, elastic closure, and a brass-foil title panel you get to fill in yourself.",
     colors: [BRAND_COLORS[1], BRAND_COLORS[2]],
     icon: "davara",
+    occasions: ["birthday", "farewell"],
+    recipients: ["colleague", "friend", "myself"],
   },
 ];
 
