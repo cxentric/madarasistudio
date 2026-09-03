@@ -1,11 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { notFound, useRouter } from "next/navigation";
 import { getProductBySlug } from "@/lib/products";
+import { SIZES } from "@/lib/taxonomy";
 import { formatRupees } from "@/lib/utils";
 import { ProductVisual } from "@/components/ProductVisual";
 import { ColorSwatches } from "@/components/ColorSwatches";
+import { SizePicker } from "@/components/SizePicker";
+import { PhotoTemplatePicker, type PhotoSlot } from "@/components/PhotoTemplatePicker";
 import { AIAssistantWidget } from "@/components/AIAssistantWidget";
 import { useCart } from "@/components/CartProvider";
 
@@ -16,10 +19,16 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
   const router = useRouter();
   const { addItem } = useCart();
   const [color, setColor] = useState(product.colors[0]);
+  const [size, setSize] = useState(SIZES[1]);
+  const [photos, setPhotos] = useState<PhotoSlot[]>([]);
   const [personalisation, setPersonalisation] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [showAssistant, setShowAssistant] = useState(false);
   const [added, setAdded] = useState(false);
+
+  const effectivePrice = product.price + size.priceDelta;
+  const readyPhotoCount = useMemo(() => photos.filter((p) => p.status === "ready").length, [photos]);
+  const hasUploadInProgress = photos.some((p) => p.status === "uploading");
 
   return (
     <div className="container-page py-12">
@@ -34,9 +43,11 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
           <p className="mt-1 text-pine/50">{product.kind}</p>
 
           <div className="mt-4 flex items-baseline gap-3">
-            <span className="text-xl text-pine">{formatRupees(product.price)}</span>
+            <span className="text-xl text-pine">{formatRupees(effectivePrice)}</span>
             {product.compareAt && (
-              <span className="text-sm text-pine/40 line-through">{formatRupees(product.compareAt)}</span>
+              <span className="text-sm text-pine/40 line-through">
+                {formatRupees(product.compareAt + size.priceDelta)}
+              </span>
             )}
           </div>
 
@@ -44,6 +55,14 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
 
           <div className="mt-6">
             <ColorSwatches colors={product.colors} selected={color} onSelect={setColor} />
+          </div>
+
+          <div className="mt-6">
+            <SizePicker sizes={SIZES} selected={size} onSelect={setSize} />
+          </div>
+
+          <div className="mt-6 max-w-md">
+            <PhotoTemplatePicker sizeId={size.id} onChange={setPhotos} />
           </div>
 
           <div className="mt-6 max-w-md">
@@ -95,29 +114,33 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
             </div>
 
             <button
+              disabled={hasUploadInProgress}
               onClick={() => {
                 addItem({
                   slug: product.slug,
                   name: product.name,
                   kind: product.kind,
-                  price: product.price,
+                  price: effectivePrice,
                   color: color.name,
+                  size: `${size.label} (${size.dimensions})`,
+                  photos: photos.filter((p) => p.status === "ready").map((p) => p.url as string),
                   personalisation: personalisation || undefined,
                   quantity,
                 });
                 setAdded(true);
                 setTimeout(() => setAdded(false), 2000);
               }}
-              className="flex-1 rounded-md bg-olive px-5 py-3 text-sm font-medium text-ivory transition-opacity hover:opacity-90"
+              className="flex-1 rounded-md bg-olive px-5 py-3 text-sm font-medium text-ivory transition-opacity hover:opacity-90 disabled:opacity-50"
             >
-              {added ? "Added to bag" : "Add to bag"}
+              {hasUploadInProgress ? "Photos still uploading…" : added ? "Added to bag" : "Add to bag"}
             </button>
           </div>
 
-          <button
-            onClick={() => router.push("/cart")}
-            className="mt-3 text-sm text-pine/60 hover:text-olive"
-          >
+          {readyPhotoCount > 0 && (
+            <p className="mt-2 text-xs text-pine/40">{readyPhotoCount} photo(s) ready to include with this order.</p>
+          )}
+
+          <button onClick={() => router.push("/cart")} className="mt-3 text-sm text-pine/60 hover:text-olive">
             View bag
           </button>
         </div>

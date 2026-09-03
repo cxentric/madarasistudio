@@ -1,22 +1,83 @@
-// Canonical taxonomy for Madarasi Studio's catalog. Every product's tags
-// should be drawn from these lists so the shop's filters and the "Ask your
-// Madarasi!" gift finder both stay in sync with what's actually sellable.
-// Add a new value here first, then use it in src/lib/products.ts.
-
 export const COLLECTIONS = ["Birthday", "Anniversary", "Us", "Our Story", "Goa", "First Trip"] as const;
 export type Collection = (typeof COLLECTIONS)[number];
 
 export const RECIPIENTS = ["Partner", "Wife", "Husband", "Friend", "Parent", "Child", "Colleague"] as const;
 export type Recipient = (typeof RECIPIENTS)[number];
 
-export const OCCASIONS = ["Birthday", "Anniversary", "Wedding", "Valentine's Day"] as const;
+export const OCCASIONS = [
+  "Birthday",
+  "Anniversary",
+  "Wedding",
+  "Engagement",
+  "Valentine's Day",
+  "Mother's Day",
+  "Father's Day",
+  "Friendship",
+  "Graduation",
+  "Baby & Newborn",
+  "Baby Shower",
+  "Housewarming",
+  "Farewell",
+  "Retirement",
+  "Festivals",
+  "Christmas",
+  "New Year",
+  "Thank You",
+  "Just Because",
+  "Corporate & Work",
+] as const;
 export type Occasion = (typeof OCCASIONS)[number];
 
-export const PLACES = ["Goa", "Kerala", "Bengaluru", "Chennai", "Europe", "Mountains", "Beaches"] as const;
+export const PLACES = [
+  "India",
+  "South India",
+  "North India",
+  "Chennai",
+  "Bengaluru",
+  "Mumbai",
+  "Delhi",
+  "Kerala",
+  "Goa",
+  "Rajasthan",
+  "Mountains",
+  "Beaches",
+  "Cities",
+  "Road Trips",
+  "International Trips",
+  "Europe",
+  "Asia",
+  "Honeymoon Destinations",
+  "Our Favourite Places",
+  "Home",
+] as const;
 export type Place = (typeof PLACES)[number];
 
-export const MEMORY_TYPES = ["Relationship", "Travel", "Family", "Friendship", "Childhood"] as const;
-export type MemoryType = (typeof MEMORY_TYPES)[number];
+export const MEMORIES = [
+  "Us",
+  "Family",
+  "Friends",
+  "Childhood",
+  "School Days",
+  "College Days",
+  "First Love",
+  "Our Story",
+  "First Date",
+  "First Trip",
+  "Adventures",
+  "Everyday Moments",
+  "Little Things",
+  "Milestones",
+  "Baby's First Year",
+  "Generations",
+  "Pet Memories",
+  "Celebrations",
+  "Forever & Always",
+  "Best of Us",
+] as const;
+export type Memory = (typeof MEMORIES)[number];
+
+export const MEMORY_TYPES = MEMORIES;
+export type MemoryType = Memory;
 
 export type PriceRange = { id: string; label: string; min: number; max: number };
 
@@ -36,3 +97,11 @@ export type Style = (typeof STYLES)[number];
 export function getPriceRange(price: number): PriceRange | undefined {
   return PRICE_RANGES.find((r) => price >= r.min && price <= r.max);
 }
+
+export type SizeOption = { id: string; label: string; dimensions: string; priceDelta: number };
+
+export const SIZES: SizeOption[] = [
+  { id: "small", label: "Small", dimensions: '6" × 6"', priceDelta: -300 },
+  { id: "medium", label: "Medium", dimensions: '8" × 5"', priceDelta: 0 },
+  { id: "large", label: "Large", dimensions: '11" × 6"', priceDelta: 400 },
+];

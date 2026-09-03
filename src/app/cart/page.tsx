@@ -33,7 +33,11 @@ export default function CartPage() {
               <p className="font-display text-pine">{item.name}</p>
               <p className="text-sm text-pine/50">
                 {item.kind} · {item.color}
+                {item.size ? ` · ${item.size}` : ""}
               </p>
+              {item.photos && item.photos.length > 0 && (
+                <p className="mt-1 text-xs text-pine/40">{item.photos.length} photo(s) attached</p>
+              )}
               {item.personalisation && (
                 <p className="mt-1 text-sm text-pine/40">"{item.personalisation}"</p>
               )}
