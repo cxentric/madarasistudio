@@ -8,7 +8,7 @@ import { formatRupees } from "@/lib/utils";
 import { ProductVisual } from "@/components/ProductVisual";
 import { ColorSwatches } from "@/components/ColorSwatches";
 import { SizePicker } from "@/components/SizePicker";
-import { PhotoTemplatePicker, type PhotoSlot } from "@/components/PhotoTemplatePicker";
+import { PhotoTemplatePicker, layoutForCollection, type PhotoSlot } from "@/components/PhotoTemplatePicker";
 import { AIAssistantWidget } from "@/components/AIAssistantWidget";
 import { useCart } from "@/components/CartProvider";
 
@@ -19,7 +19,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
   const router = useRouter();
   const { addItem } = useCart();
   const [color, setColor] = useState(product.colors[0]);
-  const [size, setSize] = useState(SIZES[1]);
+  const [size, setSize] = useState(SIZES[1]); // default to Medium
   const [photos, setPhotos] = useState<PhotoSlot[]>([]);
   const [personalisation, setPersonalisation] = useState("");
   const [quantity, setQuantity] = useState(1);
@@ -62,7 +62,11 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
           </div>
 
           <div className="mt-6 max-w-md">
-            <PhotoTemplatePicker sizeId={size.id} onChange={setPhotos} />
+            <PhotoTemplatePicker
+              sizeId={size.id}
+              layout={layoutForCollection(product.primaryCollection)}
+              onChange={setPhotos}
+            />
           </div>
 
           <div className="mt-6 max-w-md">

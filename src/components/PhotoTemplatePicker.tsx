@@ -6,17 +6,30 @@ import { cn } from "@/lib/utils";
 
 export type PhotoSlot = { url: string | null; status: "empty" | "uploading" | "ready" | "error" };
 
+export type PhotoLayout = "grid" | "hero" | "strip";
+
 const SLOT_COUNT_BY_SIZE: Record<string, number> = {
   small: 4,
   medium: 8,
   large: 12,
 };
 
+const HERO_COLLECTIONS = ["Wedding", "Anniversary", "Us", "Our Story", "Engagement"];
+const STRIP_COLLECTIONS = ["Goa", "First Trip", "Road Trips", "International Trips", "Honeymoon Destinations"];
+
+export function layoutForCollection(collection?: string): PhotoLayout {
+  if (collection && HERO_COLLECTIONS.includes(collection)) return "hero";
+  if (collection && STRIP_COLLECTIONS.includes(collection)) return "strip";
+  return "grid";
+}
+
 export function PhotoTemplatePicker({
   sizeId,
+  layout = "grid",
   onChange,
 }: {
   sizeId: string;
+  layout?: PhotoLayout;
   onChange: (photos: PhotoSlot[]) => void;
 }) {
   const slotCount = SLOT_COUNT_BY_SIZE[sizeId] ?? 8;
@@ -72,6 +85,15 @@ export function PhotoTemplatePicker({
     );
   }
 
+  function slotClass(index: number): string {
+    if (layout === "hero" && index === 0) return "col-span-4 aspect-[16/9]";
+    if (layout === "strip") return "aspect-[3/2] w-40 flex-none";
+    return "aspect-square";
+  }
+
+  const containerClass =
+    layout === "strip" ? "flex gap-2 overflow-x-auto pb-1" : "grid grid-cols-4 gap-2";
+
   return (
     <div>
       <p className="text-sm text-pine/60">
@@ -81,9 +103,12 @@ export function PhotoTemplatePicker({
         </span>
       </p>
 
-      <div className="mt-3 grid grid-cols-4 gap-2">
+      <div className={cn("mt-3", containerClass)}>
         {slots.map((slot, i) => (
-          <div key={i} className="relative aspect-square overflow-hidden rounded-md border border-mist bg-ivory">
+          <div
+            key={i}
+            className={cn("relative overflow-hidden rounded-md border border-mist bg-ivory", slotClass(i))}
+          >
             {slot.url ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img

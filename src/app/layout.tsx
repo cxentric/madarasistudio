@@ -6,6 +6,7 @@ import { Footer } from "@/components/Footer";
 import { AIAssistantWidget } from "@/components/AIAssistantWidget";
 import { AuthProvider } from "@/components/AuthProvider";
 import { CartProvider } from "@/components/CartProvider";
+import { CulturalAccents } from "@/components/CulturalAccents";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${fraunces.variable} ${manrope.variable}`}>
       <body>
+        <CulturalAccents />
         <AuthProvider>
           <CartProvider>
             <Navbar />
