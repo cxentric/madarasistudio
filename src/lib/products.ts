@@ -1,6 +1,9 @@
+import type { Collection, Recipient, Occasion, Place, MemoryType, PersonalisationOption, Style } from "@/lib/taxonomy";
+
 export type ColorOption = { name: string; hex: string };
 
 export type Product = {
+  id?: string; // short catalog code, e.g. "MDS-011" — optional until every product has one
   slug: string;
   name: string;
   category: "Photobooks" | "Journals" | "Planners" | "Notebooks";
@@ -11,8 +14,21 @@ export type Product = {
   description: string;
   colors: ColorOption[];
   icon: "gopuram" | "davara" | "bell" | "kolam" | "auto";
+  // Legacy tags used by the current guided gift finder (src/lib/giftFinder.ts).
+  // Being phased out in favour of the richer taxonomy below.
   occasions: string[];
   recipients: string[];
+  // Full taxonomy (src/lib/taxonomy.ts) — optional until populated for every
+  // product; once complete, the shop and gift finder will read from these
+  // instead of the legacy fields above.
+  primaryCollection?: Collection;
+  collections?: Collection[];
+  taxonomyRecipients?: Recipient[];
+  taxonomyOccasions?: Occasion[];
+  places?: Place[];
+  memoryTypes?: MemoryType[];
+  personalisation?: PersonalisationOption[];
+  style?: Style[];
 };
 
 export const BRAND_COLORS: ColorOption[] = [
