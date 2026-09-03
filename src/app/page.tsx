@@ -6,6 +6,7 @@ import { KolamDivider } from "@/components/KolamDivider";
 import { AIAssistantWidget } from "@/components/AIAssistantWidget";
 import { GopuramIcon, DavaraIcon, BellIcon, type IconName } from "@/components/Icons";
 import { products } from "@/lib/products";
+import { slugify } from "@/lib/utils";
 
 const featured = products.slice(0, 5);
 
@@ -75,9 +76,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      <ShowcaseSection title="Shop by occasion" items={OCCASION_SHOWCASE} />
-      <ShowcaseSection title="Shop by place" items={PLACE_SHOWCASE} />
-      <ShowcaseSection title="Shop by memory" items={MEMORY_SHOWCASE} />
+      <ShowcaseSection title="Shop by occasion" type="occasion" items={OCCASION_SHOWCASE} />
+      <ShowcaseSection title="Shop by place" type="place" items={PLACE_SHOWCASE} />
+      <ShowcaseSection title="Shop by memory" type="memory" items={MEMORY_SHOWCASE} />
 
       <section className="container-page py-6">
         <KolamDivider animate />
@@ -125,7 +126,15 @@ export default function HomePage() {
   );
 }
 
-function ShowcaseSection({ title, items }: { title: string; items: Showcase[] }) {
+function ShowcaseSection({
+  title,
+  type,
+  items,
+}: {
+  title: string;
+  type: "occasion" | "place" | "memory";
+  items: Showcase[];
+}) {
   return (
     <section className="container-page py-10">
       <h2 className="mb-6 font-display text-2xl text-pine">{title}</h2>
@@ -137,6 +146,7 @@ function ShowcaseSection({ title, items }: { title: string; items: Showcase[] })
             caption={item.caption}
             icon={item.icon}
             accent={item.accent}
+            href={`/collections/${type}/${slugify(item.label)}`}
           />
         ))}
       </div>

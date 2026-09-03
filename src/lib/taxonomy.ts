@@ -105,3 +105,11 @@ export const SIZES: SizeOption[] = [
   { id: "medium", label: "Medium", dimensions: '8" × 5"', priceDelta: 0 },
   { id: "large", label: "Large", dimensions: '11" × 6"', priceDelta: 400 },
 ];
+
+export type PageCountOption = { id: string; label: string; pages: number; priceDelta: number };
+
+export const PAGE_COUNTS: PageCountOption[] = [
+  { id: "30", label: "30 pages", pages: 30, priceDelta: 0 },
+  { id: "60", label: "60 pages", pages: 60, priceDelta: 500 },
+  { id: "90", label: "90 pages", pages: 90, priceDelta: 1000 },
+];

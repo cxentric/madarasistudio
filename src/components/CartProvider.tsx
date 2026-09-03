@@ -9,6 +9,7 @@ export type CartItem = {
   price: number;
   color: string;
   size?: string;
+  pageCount?: string;
   photos?: string[];
   personalisation?: string;
   quantity: number;

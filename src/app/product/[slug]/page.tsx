@@ -3,11 +3,13 @@
 import { useMemo, useState } from "react";
 import { notFound, useRouter } from "next/navigation";
 import { getProductBySlug } from "@/lib/products";
-import { SIZES } from "@/lib/taxonomy";
+import { SIZES, PAGE_COUNTS } from "@/lib/taxonomy";
+import { getQuoteSuggestions } from "@/lib/quotes";
 import { formatRupees } from "@/lib/utils";
 import { ProductVisual } from "@/components/ProductVisual";
 import { ColorSwatches } from "@/components/ColorSwatches";
 import { SizePicker } from "@/components/SizePicker";
+import { PageCountPicker } from "@/components/PageCountPicker";
 import { PhotoTemplatePicker, layoutForCollection, type PhotoSlot } from "@/components/PhotoTemplatePicker";
 import { AIAssistantWidget } from "@/components/AIAssistantWidget";
 import { useCart } from "@/components/CartProvider";
@@ -20,15 +22,17 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
   const { addItem } = useCart();
   const [color, setColor] = useState(product.colors[0]);
   const [size, setSize] = useState(SIZES[1]); // default to Medium
+  const [pageCount, setPageCount] = useState(PAGE_COUNTS[0]); // default to 30 pages
   const [photos, setPhotos] = useState<PhotoSlot[]>([]);
   const [personalisation, setPersonalisation] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [showAssistant, setShowAssistant] = useState(false);
   const [added, setAdded] = useState(false);
 
-  const effectivePrice = product.price + size.priceDelta;
+  const effectivePrice = product.price + size.priceDelta + pageCount.priceDelta;
   const readyPhotoCount = useMemo(() => photos.filter((p) => p.status === "ready").length, [photos]);
   const hasUploadInProgress = photos.some((p) => p.status === "uploading");
+  const quoteSuggestions = useMemo(() => getQuoteSuggestions(product.primaryCollection), [product.primaryCollection]);
 
   return (
     <div className="container-page py-12">
@@ -46,7 +50,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
             <span className="text-xl text-pine">{formatRupees(effectivePrice)}</span>
             {product.compareAt && (
               <span className="text-sm text-pine/40 line-through">
-                {formatRupees(product.compareAt + size.priceDelta)}
+                {formatRupees(product.compareAt + size.priceDelta + pageCount.priceDelta)}
               </span>
             )}
           </div>
@@ -59,6 +63,10 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
 
           <div className="mt-6">
             <SizePicker sizes={SIZES} selected={size} onSelect={setSize} />
+          </div>
+
+          <div className="mt-6">
+            <PageCountPicker options={PAGE_COUNTS} selected={pageCount} onSelect={setPageCount} />
           </div>
 
           <div className="mt-6 max-w-md">
@@ -81,6 +89,18 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
               maxLength={60}
               className="mt-2 w-full rounded-md border border-mist bg-cloud px-3 py-2 text-sm text-pine placeholder:text-pine/35 focus:border-olive"
             />
+            <div className="mt-2 flex flex-wrap gap-2">
+              {quoteSuggestions.map((q) => (
+                <button
+                  key={q}
+                  type="button"
+                  onClick={() => setPersonalisation(q)}
+                  className="rounded-full border border-mist px-3 py-1 text-xs text-pine/60 hover:border-olive hover:text-pine"
+                >
+                  {q}
+                </button>
+              ))}
+            </div>
             <button
               type="button"
               onClick={() => setShowAssistant((v) => !v)}
@@ -127,6 +147,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
                   price: effectivePrice,
                   color: color.name,
                   size: `${size.label} (${size.dimensions})`,
+                  pageCount: pageCount.label,
                   photos: photos.filter((p) => p.status === "ready").map((p) => p.url as string),
                   personalisation: personalisation || undefined,
                   quantity,
